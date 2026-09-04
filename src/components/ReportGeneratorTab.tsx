@@ -875,10 +875,41 @@ ${reportData.sources.map((s) => `• [Doc: ${s.docId} | Page ${s.page}]: ${s.des
               <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span>1. Executive Summary & Geological Context</span>
             </h4>
-            <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/70 dark:bg-slate-800/90 border-2 border-blue-200 dark:border-blue-900/60 shadow-xs space-y-3">
-              <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
-                {reportData.summary}
-              </p>
+            <div className="p-4 sm:p-6 rounded-2xl bg-blue-50/70 dark:bg-slate-800/90 border-2 border-blue-200 dark:border-blue-900/60 shadow-xs space-y-4">
+              <div className="text-xs sm:text-sm font-normal text-slate-800 dark:text-slate-100 leading-relaxed space-y-3">
+                {(reportData.summary || '')
+                  .split(/\n\s*\n/)
+                  .map((para, pIdx) => (
+                    <p key={pIdx} className="leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+              </div>
+
+              {/* 4 Summary Highlight Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-blue-200/70 dark:border-blue-900/50">
+                <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-blue-100 dark:border-blue-900/40 shadow-2xs">
+                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 truncate">Proved Reserves</div>
+                  <div className="text-xs sm:text-sm font-black text-blue-900 dark:text-blue-200 mt-0.5">248.80 MT (76.7%)</div>
+                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">UNFC Category 111</div>
+                </div>
+                <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-blue-100 dark:border-blue-900/40 shadow-2xs">
+                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 truncate">Average Stripping</div>
+                  <div className="text-xs sm:text-sm font-black text-blue-900 dark:text-blue-200 mt-0.5">3.11 m³/tonne</div>
+                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">773.80 Mcum Overburden</div>
+                </div>
+                <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-blue-100 dark:border-blue-900/40 shadow-2xs">
+                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 truncate">ROM Coal Quality</div>
+                  <div className="text-xs sm:text-sm font-black text-blue-900 dark:text-blue-200 mt-0.5">Grade G10 (4,780 kcal)</div>
+                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">Yield: 3,980 - 5,420 kcal/kg</div>
+                </div>
+                <div className="bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-blue-100 dark:border-blue-900/40 shadow-2xs">
+                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 truncate">Concession Block</div>
+                  <div className="text-xs sm:text-sm font-black text-blue-900 dark:text-blue-200 mt-0.5">14.80 sq. km</div>
+                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">Barakar Fm, Jharkhand</div>
+                </div>
+              </div>
+
               <div className="pt-2 border-t border-blue-200/60 dark:border-blue-900/40 flex flex-wrap items-center gap-3 text-[11px] text-blue-900 dark:text-blue-200 font-medium">
                 <span><strong>Report Type:</strong> Geological Assessment & Production Feasibility</span>
                 <span>•</span>

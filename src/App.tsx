@@ -7,7 +7,6 @@ import { HomePage } from './components/HomePage';
 import { DocumentUploadTab } from './components/DocumentUploadTab';
 import { ExtractionViewerTab } from './components/ExtractionViewerTab';
 import { GroundedQATab } from './components/GroundedQATab';
-import { DiscrepancyValidatorTab } from './components/DiscrepancyValidatorTab';
 import { AnalyticsTab } from './components/AnalyticsTab';
 import { ReportGeneratorTab } from './components/ReportGeneratorTab';
 import { TrashTab } from './components/TrashTab';
@@ -173,12 +172,13 @@ export default function App() {
 
   // Navigation handlers with history tracking for Back and Forth
   const handleNavigateTab = (tabId: string) => {
-    if (tabId === activeTab) return;
+    const targetTab = tabId === 'discrepancy' ? 'extraction' : tabId;
+    if (targetTab === activeTab) return;
     const newHistory = tabHistory.slice(0, historyIndex + 1);
-    newHistory.push(tabId);
+    newHistory.push(targetTab);
     setTabHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
-    setActiveTab(tabId);
+    setActiveTab(targetTab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -363,20 +363,12 @@ export default function App() {
             discrepancies={discrepancies}
             selectedDocId={selectedDocId}
             onSelectDocId={setSelectedDocId}
+            onResolveDiscrepancy={handleResolveDiscrepancy}
           />
         )}
 
         {activeTab === 'qa' && (
           <GroundedQATab pages={pages} />
-        )}
-
-        {activeTab === 'discrepancy' && (
-          <DiscrepancyValidatorTab
-            discrepancies={discrepancies}
-            onResolveDiscrepancy={handleResolveDiscrepancy}
-            documents={documents}
-            onNavigateTab={handleNavigateTab}
-          />
         )}
 
         {activeTab === 'analytics' && (

@@ -84,8 +84,8 @@ export const Header: React.FC<HeaderProps> = ({
         };
       case 'extraction':
         return {
-          label: 'Read Documents & Tables',
-          desc: 'Extracted text, tables & borehole logs',
+          label: discrepancyCount > 0 ? `Read Documents & Audit Data (${discrepancyCount} flags)` : 'Read Documents & Audit Data',
+          desc: 'Extracted text, tables, borehole assays & data audits',
           icon: <Cpu className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
         };
       case 'qa':
@@ -93,12 +93,6 @@ export const Header: React.FC<HeaderProps> = ({
           label: 'Ask Questions',
           desc: 'Document Q&A with page citations',
           icon: <Search className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
-        };
-      case 'discrepancy':
-        return {
-          label: `Check Errors (${discrepancyCount} to review)`,
-          desc: 'Conflicting values & data discrepancies',
-          icon: <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
         };
       case 'analytics':
         return {

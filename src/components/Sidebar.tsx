@@ -76,13 +76,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'extraction',
       label: 'Doc Reader',
       icon: <Cpu className="w-5 h-5 shrink-0" />,
-    },
-    {
-      id: 'discrepancy',
-      label: 'Check Errors',
-      icon: <AlertTriangle className="w-5 h-5 shrink-0" />,
-      badge: discrepancyCount > 0 ? discrepancyCount : undefined,
-      badgeColor: 'bg-rose-500/20 text-rose-300 border border-rose-500/30',
+      badge: discrepancyCount > 0 ? `${discrepancyCount} flags` : undefined,
+      badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
     },
   ];
 

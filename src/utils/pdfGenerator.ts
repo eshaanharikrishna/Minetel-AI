@@ -79,34 +79,59 @@ export function generateCMPDIPdfReport(options: GenerateReportOptions): void {
   y += 28;
 
   // Section 1: Executive Summary & Geological Context
+  checkPageBreak(50);
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(10.5);
   doc.setFont('helvetica', 'bold');
-  doc.text('1. EXECUTIVE SUMMARY', margin, y);
+  doc.text('1. EXECUTIVE SUMMARY & GEOLOGICAL APPRAISAL', margin, y);
   doc.setDrawColor(217, 119, 6);
   doc.setLineWidth(0.7);
-  doc.line(margin, y + 1.5, margin + 48, y + 1.5);
+  doc.line(margin, y + 1.5, margin + 86, y + 1.5);
 
   y += 7;
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 65, 85);
-  const splitSummary = doc.splitTextToSize(options.summary, pageWidth - (margin * 2));
-  doc.text(splitSummary, margin, y);
-  y += (splitSummary.length * 3.8) + 4;
 
-  // Key Mandate & Resource Highlights Box
+  const contentWidth = pageWidth - (margin * 2);
+  const paragraphs = (options.summary || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  paragraphs.forEach((para) => {
+    const lines = doc.splitTextToSize(para, contentWidth);
+    checkPageBreak(lines.length * 4.2 + 4);
+    doc.text(lines, margin, y);
+    y += (lines.length * 4.0) + 3.5;
+  });
+
+  y += 1.5;
+
+  // Key Mandate & Resource Highlights Box (Clean 2-column grid with generous spacing)
+  checkPageBreak(22);
+  const mandateBoxHeight = 18;
   doc.setFillColor(241, 245, 249);
-  doc.roundedRect(margin, y, pageWidth - (margin * 2), 13, 1.5, 1.5, 'F');
+  doc.setDrawColor(203, 213, 225);
+  doc.roundedRect(margin, y, contentWidth, mandateBoxHeight, 1.5, 1.5, 'FD');
+
+  const halfWidth = (contentWidth - 6) / 2;
+  const col1X = margin + 4;
+  const col2X = margin + halfWidth + 5;
+
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(30, 41, 59);
-  doc.text(`Proved Mineable Reserves (UNFC 111): ${options.resourceTotal}`, margin + 4, y + 5);
-  doc.text(`Concession / Formation: Barakar Formation, North Karanpura (14.80 sq. km)`, margin + 4, y + 9.5);
-  doc.text(`Quality Range: 3,980 - 5,420 kcal/kg (Grades G9-G14)`, margin + 98, y + 5);
-  doc.text(`Primary Objective: Statutory EC Clearance & 14.50 MTPA Mine Sanction`, margin + 98, y + 9.5);
+  doc.setTextColor(15, 23, 42);
 
-  y += 17;
+  // Row 1
+  doc.text(`• Proved Reserves (UNFC 111): ${options.resourceTotal}`, col1X, y + 5.2);
+  doc.text(`• Quality Range: 3,980 - 5,420 kcal/kg (G9-G14)`, col2X, y + 5.2);
+
+  // Row 2
+  doc.text(`• Concession: Barakar Fm, North Karanpura`, col1X, y + 9.8);
+  doc.text(`• Stripping Ratio: 3.11 m³/t (Avg OP Model)`, col2X, y + 9.8);
+
+  // Row 3
+  doc.text(`• Target Capacity: 14.50 MTPA Commercial OP`, col1X, y + 14.4);
+  doc.text(`• Statutory Mandate: EC Parivesh Filing / Lease`, col2X, y + 14.4);
+
+  y += mandateBoxHeight + 8;
 
   // Section 2: Key Data Points
   checkPageBreak(50);
@@ -119,39 +144,51 @@ export function generateCMPDIPdfReport(options: GenerateReportOptions): void {
 
   y += 6;
 
-  // Sub-section A & B Key Metrics Summary Table
+  // Sub-section 2.1 Key Metrics Summary Table
   doc.setFontSize(8);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(30, 58, 138);
   doc.text('2.1 Reserve Figures, Coal Quality & Geological Parameters', margin, y);
   y += 4;
 
+  const keyMetricRows = [
+    {
+      label: '• Resources (UNFC):',
+      value: 'Proved: 248.80 MT (76.7%) | Indicated: 54.20 MT | Inferred: 21.50 MT | Total In-Situ: 324.50 MT [Sec 3.1, Pg 3]',
+    },
+    {
+      label: '• Seam Thicknesses:',
+      value: 'Seam IV Top: 6.82m | IV Bot: 4.25m | Seam III: 3.10m | Seam II Top: 16.20m | Seam I Bot: 18.50m [Sec 3.2, Pg 3]',
+    },
+    {
+      label: '• Quality / GCV:',
+      value: '3,980 - 5,420 kcal/kg (G9-G14). Weighted ROM: 4,780 kcal/kg (Grade G10). Ash: 32.4% - 41.2% [Sec 3.3, Pg 3]',
+    },
+    {
+      label: '• Structural Geology:',
+      value: '42 Drillholes (7,845m core); Strike N35°W-S35°E, Dip 4°-7° SW; Faults F1 (18-25m), F2 (8-12m) [Sec 2, Pg 2]',
+    },
+  ];
+
+  const sec21Height = 24;
   doc.setFillColor(248, 250, 252);
   doc.setDrawColor(226, 232, 240);
-  doc.rect(margin, y, pageWidth - (margin * 2), 22, 'FD');
-  doc.setFontSize(7);
-  doc.setTextColor(15, 23, 42);
-  doc.setFont('helvetica', 'bold');
-  doc.text('• Resources (UNFC):', margin + 3, y + 4.5);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Proved: 248.80 MT (76.7%) | Indicated: 54.20 MT | Inferred: 21.50 MT | Total In-Situ: 324.50 MT [Sec 3.1, Pg 3]', margin + 32, y + 4.5);
+  doc.rect(margin, y, contentWidth, sec21Height, 'FD');
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('• Seam Thicknesses:', margin + 3, y + 9);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Seam IV Top: 6.82m | IV Bottom: 4.25m | Seam III: 3.10m | Seam II Top: 16.20m | Seam I Bottom: 18.50m [Sec 3.2, Pg 3]', margin + 32, y + 9);
+  let curY = y + 4.8;
+  keyMetricRows.forEach((row) => {
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(15, 23, 42);
+    doc.text(row.label, margin + 3, curY);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('• Quality / GCV:', margin + 3, y + 13.5);
-  doc.setFont('helvetica', 'normal');
-  doc.text('GCV 3,980 - 5,420 kcal/kg (Grades G9 to G14). Weighted ROM GCV: 4,780 kcal/kg (Grade G10). Ash: 32.4% - 41.2% [Sec 3.3, Pg 3]', margin + 32, y + 13.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(51, 65, 85);
+    doc.text(row.value, margin + 30, curY);
+    curY += 4.8;
+  });
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('• Structural Geology:', margin + 3, y + 18);
-  doc.setFont('helvetica', 'normal');
-  doc.text('42 Drillholes (7,845m core); Strike N35°W-S35°E, Dip 4°-7° SW (mean 5.5°); Fault F1 (18-25m throw), Fault F2 (8-12m) [Sec 2, Pg 2]', margin + 32, y + 18);
-
-  y += 26;
+  y += sec21Height + 6;
 
   // Sub-section 2.2: 5-Year Production & Stripping Schedule Table
   checkPageBreak(35);

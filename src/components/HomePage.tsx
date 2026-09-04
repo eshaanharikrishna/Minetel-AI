@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Sparkles,
   Sliders,
+  Trash2,
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -43,7 +44,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       moduleNumber: '1',
       title: 'Automated Report Generator',
       tagline: 'Instant technical synthesis',
-      description: 'Automated conclusions, findings & reasons with PDF export',
+      description: 'Automated conclusions, findings, discrepancies & PDF export',
       icon: <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
       actionText: 'Try Report Generator',
       actionTab: 'report',
@@ -54,8 +55,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       id: 'extraction',
       moduleNumber: '2',
       title: 'Document & Table Reader',
-      tagline: 'Deep OCR & Stratigraphic Analysis',
-      description: 'Review extracted text, tables, borehole assays & figures',
+      tagline: 'Deep OCR, Tables & Quality Auditing',
+      description: 'Review extracted text, tables, borehole assays & conflict audits',
       icon: <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
       actionText: 'Open Doc Reader',
       actionTab: 'extraction',
@@ -86,18 +87,18 @@ export const HomePage: React.FC<HomePageProps> = ({
       actionTab: 'upload',
     },
     {
-      id: 'discrepancy',
-      title: 'Check Errors & Conflicts',
-      definition: 'Conflicting numbers & data discrepancies',
-      icon: <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
-      actionTab: 'discrepancy',
-    },
-    {
       id: 'analytics',
       title: 'Operations & Analytics Intelligence',
       definition: 'Correlations, Tukey anomalies, sensitivity simulator & ROI matrix',
       icon: <BarChart3 className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />,
       actionTab: 'analytics',
+    },
+    {
+      id: 'trash',
+      title: 'Document Trash & Archive',
+      definition: 'Safely recover deleted files or manage file archives',
+      icon: <Trash2 className="w-4 h-4 text-slate-600 dark:text-slate-400" />,
+      actionTab: 'trash',
     },
   ];
 

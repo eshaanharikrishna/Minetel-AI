@@ -36,20 +36,20 @@ export function generateAutomatedReportFromUserDocument(
     ? 'CMPDI Technical Evaluation & Geological Feasibility Audit: North Karanpura Block C'
     : `Technical Report Analysis & Geological Audit: ${cleanBaseName}`;
 
-  // 1. EXECUTIVE SUMMARY (4-6 sentences, stating purpose, scope, findings, author, and use-case)
+  // 1. EXECUTIVE SUMMARY (Structured into clean, distinct paragraphs with clear scope, findings, and statutory use)
   let summary = '';
   if (isNorthKaranpura) {
     summary =
-      'This technical assessment report, prepared by the Central Mine Planning & Design Institute Limited (CMPDI), Regional Institute-II (Dhanbad) for Central Coalfields Limited (CCL) and the Ministry of Coal, provides a comprehensive geological and production feasibility evaluation of North Karanpura Block C (14.80 sq. km) in the North Karanpura Coalfield, Jharkhand. The primary purpose of this appraisal is to support statutory project sanctioning, Opencast Mining Lease execution, Environmental Clearance (EC) filing under the MoEFCC Parivesh portal, and capital expenditure approval for a 14.50 MTPA commercial opencast mine. The document establishes 324.50 MT of total in-situ geological coal resources across the Permian Barakar Formation, of which 248.80 MT are categorized as Proved Mineable Reserves (UNFC 111) across five target seam horizons. The stated report conclusion evaluates the project as "HIGHLY FEASIBLE" for commercial opencast exploitation, citing an average stripping ratio of 3.11 m³/t, gentle structural dips of 4° to 7°, and favorable Grade G9-G11 thermal coal yield over a 22.4-year life of mine.';
+      'This technical assessment report, prepared by the Central Mine Planning & Design Institute Limited (CMPDI), Regional Institute-II (Dhanbad) for Central Coalfields Limited (CCL) and the Ministry of Coal, provides a comprehensive geological and production feasibility evaluation of North Karanpura Block C (14.80 sq. km) in the North Karanpura Coalfield, Jharkhand.\n\nThe primary purpose of this appraisal is to support statutory project sanctioning, Opencast Mining Lease execution, Environmental Clearance (EC) filing under the MoEFCC Parivesh portal, and capital expenditure approval for a 14.50 MTPA commercial opencast mine. The document establishes 324.50 MT of total in-situ geological coal resources across the Permian Barakar Formation, of which 248.80 MT are categorized as Proved Mineable Reserves (UNFC 111) across five target seam horizons.\n\nThe stated report conclusion evaluates the project as "HIGHLY FEASIBLE" for commercial opencast exploitation, citing an average stripping ratio of 3.11 m³/t, gentle structural dips of 4° to 7°, and favorable Grade G9-G11 thermal coal yield over a 22.4-year life of mine.';
   } else if (combinedText.trim().length > 50) {
     const sentences = combinedText
       .split(/[\r\n.]+|\.\s+/)
       .map((s) => s.trim())
       .filter((s) => s.length > 25 && !s.startsWith('#'));
     const firstTwo = sentences.slice(0, 4).join('. ');
-    summary = `Automated technical report analysis for "${doc.original_filename}" (${doc.category}). Prepared under ${doc.subsidiary} standards to support mining feasibility, regulatory compliance, and operational planning. ${firstTwo}. Totaling ${docPages.length} parsed pages with verified data grounding.`;
+    summary = `Automated technical report analysis for "${doc.original_filename}" (${doc.category}). Prepared under ${doc.subsidiary} standards to support mining feasibility, regulatory compliance, and operational planning.\n\n${firstTwo}.\n\nTotaling ${docPages.length} parsed pages with verified data grounding.`;
   } else {
-    summary = `Automated technical report analysis for "${doc.original_filename}" (${doc.category}, ${doc.subsidiary}). The document supports statutory evaluation and operational feasibility with ${docPages.length} active pages and ${docTables.length} extracted tabular matrices.`;
+    summary = `Automated technical report analysis for "${doc.original_filename}" (${doc.category}, ${doc.subsidiary}).\n\nThe document supports statutory evaluation and operational feasibility with ${docPages.length} active pages and ${docTables.length} extracted tabular matrices.`;
   }
 
   // 2. KEY DATA POINTS: Stat Cards & Extracted Tables
